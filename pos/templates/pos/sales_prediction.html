@@ -1,0 +1,93 @@
+{% extends 'pos/home.html' %}
+
+{% block title %}Sales Prediction{% endblock title %}
+
+{% block content %}
+<div class="card-body">
+<h1 class="mt-4" style="margin-bottom:1cm;">Upcoming Top Selling Products</h1>
+    
+
+
+<a style="text-decoration: none" href="/sales-prediction/top-selling/{{ month_1 }}/{{month_1_year}}/1"><div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="col">
+    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+      <h2 class="card-header">{{month_1}} {{month_1_year}}</h2>
+      <div class="card-body">
+        <h5 class="card-text" style="color:#0d6efd">Total number of X products sold in Y quantity</h5>
+      </div>
+    </div>
+  </div>
+</a>
+
+<a style="text-decoration: none" href="/sales-prediction/top-selling/{{ month_2 }}/{{month_2_year}}/2">
+<div class="col">
+    <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+      <h2 class="card-header ">{{month_2}} {{month_2_year}}</h2>
+      <div class="card-body">
+        <h5 class="card-text" style="color:#ffc1">Total number of available Products are {{total_products}}</h5>
+      </div>
+    </div>
+  </div>
+</a>
+
+
+<a style="text-decoration: none" href="/sales-prediction/top-selling/{{ month_3 }}/{{month_3_year}}/3">
+  <div class="col">
+    <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+      <h2 class="card-header">{{month_3}} {{month_3_year}}</h2>
+      <div class="card-body">
+        <h5 class="card-text" style="color:#dc3545">Total number of available Categories are {{total_categories}}</h5>
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+
+<hr style="margin:0.5cm">
+
+</div>
+
+
+
+<div class="card-body">
+<h1 class="mt-4" style="margin-bottom:1cm">Upcoming Least Selling Products</h1>
+
+<a style="text-decoration: none" href="/sales-prediction/least-selling/{{ month_1 }}/{{month_1_year}}/1"><div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="col">
+    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+      <h2 class="card-header">{{month_1}} {{month_1_year}}</h2>
+      <div class="card-body">
+        <h5 class="card-text" style="color:#0d6efd">Total number of X products sold in Y quantity</h5>
+      </div>
+    </div>
+  </div>
+</a>
+
+<a style="text-decoration: none" href="/sales-prediction/least-selling/{{ month_2 }}/{{month_2_year}}/2">
+<div class="col">
+    <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+      <h2 class="card-header ">{{month_2}} {{month_2_year}}</h2>
+      <div class="card-body">
+        <h5 class="card-text" style="color:#ffc1">Total number of available Products are {{total_products}}</h5>
+      </div>
+    </div>
+  </div>
+</a>
+
+
+<a style="text-decoration: none" href="/sales-prediction/least-selling/{{ month_3 }}/{{month_3_year}}/3">
+  <div class="col">
+    <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+      <h2 class="card-header">{{month_3}} {{month_3_year}}</h2>
+      <div class="card-body">
+        <h5 class="card-text" style="color:#dc3545">Total number of available Categories are {{total_categories}}</h5>
+      </div>
+    </div>
+  </div>
+</div>
+</a>
+</div>
+
+
+{% endblock content %}
+

@@ -1,0 +1,45 @@
+{% extends 'pos/home.html' %}
+
+{% block title %}Least Selling{% endblock title %}
+
+{% block content %}
+
+
+<h1 class="text-center mt-4">Least Selling Items For {{month}} {{year}}</h1>
+
+    
+
+<div class="card-body">
+    <div class="display_table">
+      <table class='table' id="datatablesSimple">
+        <thead>
+        <tr>
+         {% for col in df.columns %}
+          <th>
+            
+              {{col}}
+            
+            </th>
+          {% endfor %}
+
+        </tr>
+        </thead>
+          {% for index, row in df.iterrows %}
+            <tr>
+              {% for cell in row %}
+                <td>
+                  {{cell}}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+      </table>
+    </div>
+
+
+    </table>
+    </div>
+  </div>
+
+{% endblock content %}
+

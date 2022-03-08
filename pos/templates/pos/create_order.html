@@ -1,0 +1,441 @@
+{% extends 'pos/home.html' %} {% block title %}Create Order{% endblock title %}
+{% block head %}
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
+<style>
+  #leftbox {
+      float:left;
+      width:45%;
+      height:280px;
+  }
+
+  #rightbox{
+      float:right;
+      width:52%;
+      height:280px;
+  }
+
+  .hide{
+      display:none
+  }
+  {% comment %} h1{
+      color:green;
+      text-align:center;
+  }  {% endcomment %}
+</style>
+
+{% endblock head %} {% block content %}
+
+<div id="boxes">
+  {% comment %}
+  <div id="alertId" class="alert alert-success fade in hide">
+    <p>khkjhkhk</p>
+  </div>
+  {% endcomment %}
+
+  <div
+    id="alertId"
+    class="alert alert-danger alert-dismissible fade show hide"
+    role="alert"
+  >
+    <strong>Oops!</strong> No products are added.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div
+    id="alertId2"
+    class="alert alert-danger alert-dismissible fade show hide"
+    role="alert"
+  >
+    <strong>Oops!</strong> Products with Invalid quantity exist!.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  {% if messages %} {% for message in messages %}
+  <div class="container-fluid p-0">
+    <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+      {{ message }}
+    </div>
+  </div>
+  {% endfor %} {% endif %}
+
+  <div id="leftbox">
+    <h2 class="text-center mt-4">Create Order</h2>
+    <div class="card-body">
+      <table class="table table-hover" id="myTable">
+        <thead>
+          <tr>
+            <th scope="col">Product ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <br />
+      <b>
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;&emsp; &emsp; &emsp; &emsp;
+        &emsp; &emsp; &emsp; &emsp; &emsp; Total Amount: </b
+      ><b id="display-TA">0</b>
+      <br />
+      <hr />
+      <b>
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+        &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp;
+      </b>
+      <input
+        type="button"
+        class="btn btn-success btn-sm"
+        id="btn-Save"
+        value="Save Invoice"
+      />
+    </div>
+  </div>
+
+  <div id="rightbox">
+    <h2 class="text-center mt-4">Item List</h2>
+    <div class="card-body">
+      <table id="datatablesSimple" class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Price</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td>{{product.product_id}}</td>
+            <td>{{product.product_name}}</td>
+            <td>{{product.price}}</td>
+            <td>
+              <input
+                type="button"
+                data-sid="{{product.product_id}}"
+                class="btn btn-primary btn-sm btn-add"
+                value="Add"
+              />
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+
+      {% comment %} $(document).ready(function () {
+          $('#bootstrapdatatable').DataTable({
+              "aLengthMenu": [[3, 5, 10, 25, -1], [3, 5, 10, 25, "All"]],
+              "iDisplayLength": 20,
+              "bPaginate": false,
+
+              // "bLengthChange": false,
+              // "bFilter": true,
+              // "bInfo": false,
+              // "bAutoWidth": False,
+          }
+          );
+      }); {% endcomment %}
+
+
+
+
+
+
+    $(document).ready(function() {
+
+      $("tbody").on("click", ".btn-add", function () {
+
+
+
+          // console.log("Add Button Clicked");
+          let id = $(this).attr("data-sid");
+          // console.log(id);
+
+          // mydata = {sid: id, csrfmiddlewaretoken: csr};
+          mydata = { sid: id };
+
+
+
+
+          $.ajax({
+              url: "{% url 'add' %}",
+              method: "POST",
+              data: mydata,
+              datatype: "json",
+              success: function (data) {
+
+
+
+
+                  var table = document.getElementById("myTable");
+                  var flag = 0;
+
+
+
+
+                  for (let i in table.rows) {
+                      let row = table.rows[i]
+
+                      // if(row.cells[0].innerHTML == data.id){
+                      //     flag = 1
+                      // }
+
+                      for (let j in row.cells) {
+                          let col = row.cells[j]
+
+
+                          if (parseInt(col.innerHTML, 10) == data.id && j == 0) {
+                              flag = 1
+                              row.cells[3].innerHTML = parseInt(row.cells[3].innerHTML, 10) + 1
+                              row.cells[4].innerHTML = parseInt(row.cells[3].innerHTML, 10) * parseInt(row.cells[2].innerHTML, 10)
+
+                              // console.log(row.cells[3]);
+                          }
+                      }
+
+
+                  }
+
+                  if (flag == 0) {
+                      var table1 = document.getElementById("myTable");
+                      var row = table1.insertRow();
+                      row.setAttribute("id", "row "+data.id);
+
+                      var cell0 = row.insertCell(0);
+                      cell0.innerHTML = data.id
+
+                      var cell1 = row.insertCell(1);
+                      cell1.innerHTML = data.name
+
+                      var cell2 = row.insertCell(2);
+                      cell2.innerHTML = data.price
+
+                      // var cell4 = row.insertCell(3);
+                      // cell4.innerHTML = 1
+
+                      var cell3 = row.insertCell(3);
+                      // cell4.id = 'editable-quantity';
+                      cell3.innerHTML = 1;
+                      cell3.setAttribute('contentEditable', 'true');
+
+
+                      // cell4.onblur=function(){  /*SomeJavaScriptCode*/ };
+                      cell3.setAttribute("class", "editable-quantity");
+
+                      // var element1 = document.createElement('input');
+                      // element1.type="number";
+                      // element1.min = 1;
+                      // cell4.appendChild(element1);
+
+
+
+                      var cell4 = row.insertCell(4);
+                      cell4.innerHTML = data.price
+
+                      var cell5 = row.insertCell(5);
+                      var del_btn = document.createElement("input");
+                      del_btn.setAttribute("type","button");
+                      del_btn.setAttribute("id", data.id);
+                      del_btn.setAttribute("class","btn btn-danger btn-sm btn-del");
+                      del_btn.setAttribute("value","Delete");
+                      cell5.appendChild(del_btn);
+                      
+                     // console.log(cell5)
+                  }
+
+                  // $("#pName").text(data.name);
+                  // $("#pPrice").text(data.price);
+                  // $("#pQuantity").text(45);
+
+                  var total_amount = 0
+                  for (var i = 1; i < table.rows.length; i++) {
+                      let row = table.rows[i]
+
+                      total_amount = parseInt(row.cells[4].innerHTML, 10) + total_amount
+                      // console.log(total_amount);
+                  }
+
+                  $("#display-TA").text(total_amount);
+
+                  $(".editable-quantity").keypress(function (e) {
+                      if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
+                  });
+
+              },
+          });
+      });
+
+
+
+      $('table').on('focusout', ".editable-quantity", function () {
+          // console.log("finally");
+
+
+          var table = document.getElementById("myTable");
+
+          for (var i = 1; i < table.rows.length; i++) {
+              let row = table.rows[i]
+
+              row.cells[4].innerHTML = parseInt(row.cells[3].innerHTML, 10) * parseInt(row.cells[2].innerHTML, 10)
+
+          }
+
+          var total_amount = 0
+          for (var i = 1; i < table.rows.length; i++) {
+              let row = table.rows[i]
+
+              total_amount = parseInt(row.cells[4].innerHTML, 10) + total_amount
+              // console.log(total_amount);
+          }
+
+          $("#display-TA").text(total_amount);
+
+        });
+
+        $("table").on("click", ".btn-del", function () {
+            let id = $(this).attr("id")
+            // console.log(id)
+            document.getElementById("row "+ id).remove();
+
+
+            var table = document.getElementById("myTable");
+            var total_amount = 0
+                  for (var i = 1; i < table.rows.length; i++) {
+                      let row = table.rows[i]
+
+                      total_amount = parseInt(row.cells[4].innerHTML, 10) + total_amount
+                      // console.log(total_amount);
+                  }
+
+                  $("#display-TA").text(total_amount);
+        });
+
+      // $("#myTable").on("click", ".btn-Save", function(){
+      $("#btn-Save").click(function () {
+          // console.log("Save Button Clicked");
+
+          var table = document.getElementById("myTable");
+
+
+
+
+
+
+          if (table.rows.length <= 1) {
+              {% comment %} alert("empty order") {% endcomment %}
+              document.getElementById('alertId').classList.remove('hide')
+          }
+
+
+
+
+
+
+
+          else {
+              flag = 1
+
+              for (var i = 1; i < table.rows.length; i++) {
+                  let row = table.rows[i]
+                  if (row.cells[3].innerHTML > 0 && row.cells[3].innerHTML  < 100) {
+                      flag = 0
+
+                  }
+
+
+              }
+
+              if(flag == 1){
+              document.getElementById('alertId2').classList.remove('hide')
+              {% comment %} alert("Invalid Quantity") {% endcomment %}
+
+              }
+
+              if (flag == 0) {
+                var product_id = ""
+                var product_name = "";
+                var product_price = "";
+                var product_quantity = "";
+                var product_amount = "";
+
+
+
+                  for (var i = 1; i < table.rows.length; i++) {
+                    let row = table.rows[i]
+
+                    product_id = product_id + "," + row.cells[0].innerHTML
+                    product_name = product_name + "," + row.cells[1].innerHTML
+                    product_price = product_price + "," + row.cells[2].innerHTML
+                    product_quantity = product_quantity + "," + row.cells[3].innerHTML
+                    product_amount = product_amount + "," + row.cells[4].innerHTML
+
+                }
+
+                  var total_amount = 0
+                  for (var i = 1; i < table.rows.length; i++) {
+                      let row = table.rows[i]
+
+                      total_amount = parseInt(row.cells[4].innerHTML, 10) + total_amount
+                      // console.log(total_amount);
+                  }
+                  product_id = product_id.slice(1, );
+                  product_name = product_name.slice(1,);
+                  product_price = product_price.slice(1,);
+                  product_quantity = product_quantity.slice(1,);
+                  product_amount = product_amount.slice(1,);
+
+                console.log(product_id);
+                console.log(product_name);
+                console.log(product_price);
+                console.log(product_quantity);
+                console.log(product_amount);
+                console.log(total_amount);
+
+                  // mydata = {sid: id, csrfmiddlewaretoken: csr};
+                  mydata = {product_id:product_id,product_name: product_name, product_price: product_price, product_quantity: product_quantity, product_amount: product_amount, total_amount: total_amount };
+
+                  
+
+
+                  $.ajax({
+                      url: "{% url 'save-invoice' %}",
+                      method: "POST",
+                      data: mydata,
+                      datatype: "json",
+                      success: function (data) {
+
+                      location.href = "{% url 'create-order' %}"
+                      },
+                  });
+              }
+          }
+
+
+
+      });
+  });
+</script>
+{% endblock content %}

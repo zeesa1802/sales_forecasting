@@ -1,0 +1,38 @@
+{% extends 'pos/home.html' %}
+
+
+{% block title %}All Categories{% endblock title %}
+
+{% block content %}
+
+{% comment %} <div class="col-md"> {% endcomment %}
+  <h1 class="text-center mt-4">All Categories</h1>
+  <div class="card-body">
+  <table class="table table-hover" id="datatablesSimple">
+      <thead>
+        <tr>
+          <th>CATEGORY ID</th>
+          <th>CATEGORY NAME</th>
+          <th>DATE ADDED</th>
+        </tr>
+      </thead>
+      <tbody>
+          
+        {% for category in categories %}
+        <tr>
+          <td>{{category.category_id}}</td>
+          <td>{{category.category_name }}</td>
+          <td>{{category.date}}</td>
+        </tr>
+    {% endfor %}
+      </tbody>         
+  </table>
+</div>
+{% comment %} </div> {% endcomment %}
+
+
+
+
+
+{% endblock content %}
+

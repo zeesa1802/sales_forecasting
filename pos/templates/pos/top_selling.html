@@ -1,0 +1,74 @@
+{% extends 'pos/home.html' %}
+
+{% block title %}Top Selling{% endblock title %}
+
+
+{% block head %}
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<style>
+  .highlight{
+    background-color: #fd9fa8;
+  }
+</style>
+{% endblock head %}
+
+{% block content %}
+
+
+<h1 class="text-center mt-4">Sales Predictions for {{month}} {{year}}</h1>
+
+
+<div class="card-body">
+
+  <div class="display_table">
+    <table class='table' id="datatablesSimple">
+      <thead>
+        <tr>
+          {% for col in df.columns %}
+          <th>
+
+            {{col}}
+
+          </th>
+          {% endfor %}
+
+        </tr>
+      </thead>
+      {% for index, row in df.iterrows %}
+      <tr>
+        {% for cell in row %}
+        <td>
+          {{cell}}
+        </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+
+  </table>
+</div>
+
+</div>
+
+
+<script>
+
+  $(document).ready(function () {
+
+    var table = document.getElementById("datatablesSimple");
+    for (var i = 1; i < table.rows.length; i++) {
+      let row = table.rows[i]
+
+      if(parseInt(row.cells[4].innerHTML, 10) < parseInt(row.cells[3].innerHTML, 10)){
+        row.setAttribute("class", "highlight");
+      }
+      
+    }
+
+    
+
+  });
+</script>
+{% endblock content %}

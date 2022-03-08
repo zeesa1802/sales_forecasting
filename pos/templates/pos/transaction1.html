@@ -1,0 +1,52 @@
+{% extends "pos/home.html" %}
+
+{% block title %}
+  View All Orders
+{% endblock title %}
+
+
+
+{% block content %}
+
+
+
+<div class="display_table">
+  <table class='table'>
+    <thead>
+    <tr>
+     {% for col in df.columns %}
+      <th>
+        
+          {{col}}
+        
+        </th>
+      {% endfor %}
+
+    </tr>
+    </thead>
+    <tbody>
+
+   
+      {% for index, row in df.iterrows %}
+        <tr>
+          {% for cell in row %}
+            <td>
+              {{cell}}
+            </td>
+          {% endfor %}
+         
+        </tr>
+        
+      {% endfor %}
+    
+    </tbody>
+  </table>
+</div>
+
+
+</table>
+</div>
+
+
+{% endblock content %}
+

@@ -1,0 +1,11 @@
+apyori
+statsmodel
+pandas
+numpy
+asgiref==3.3.4
+Django==3
+Pillow==8.2.0
+psycopg2-binary==2.8.6
+pytz==2021.1
+sqlparse==0.4.1
+pmdarima

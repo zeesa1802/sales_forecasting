@@ -1,0 +1,37 @@
+{% extends 'pos/home.html' %}
+
+{% block title %}Edit User{% endblock title %}
+
+{% block content %}
+
+{% comment %} <h1 class="mt-4" style="margin-bottom:1cm">Expiry Alerts</h1> {% endcomment %}
+<h1 class="text-center mt-4">Expiry List</h1>
+  <div class="card-body">
+    <table class="table table-hover" id="datatablesSimple">
+        <thead>
+          <tr>
+            <th>PRODUCT ID</th>
+            <th>PRODUCT NAME</th>
+            <th>QUANTITY</th>
+            <th>PRICE</th>
+            <th>EXPIRY DATE</th>
+          </tr>
+        </thead>
+        <tbody>
+            
+          {% for product in expiry_products %}
+          <tr>
+            <td>{{product.product_id}}</td>
+            <!-- <td>{{instance.category}}</td> -->
+            <td>{{product.product_name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.expiry_date}}</td>
+          </tr>
+      {% endfor %}
+        </tbody>         
+    </table>
+  
+  
+{% endblock content %}
+

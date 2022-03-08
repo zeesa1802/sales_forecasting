@@ -1,0 +1,37 @@
+{% extends 'pos/home.html' %}
+
+{% block title %}Edit User{% endblock title %}
+
+{% block content %}
+
+{% comment %} <h1 class="mt-4" style="margin-bottom:1cm">Expiry Alerts</h1> {% endcomment %}
+<h1 class="text-center mt-4">Low Stock Items</h1>
+  <div class="card-body">
+    <table class="table table-hover" id="datatablesSimple">
+        <thead>
+          <tr>
+            <th>PRODUCT ID</th>
+            <th>PRODUCT NAME</th>
+            <th>QUANTITY</th>
+            <th>REORDER LEVEL</th>
+            <th>PRICE</th>
+          </tr>
+        </thead>
+        <tbody>
+            
+          {% for product in low_stock %}
+          <tr>
+            <td>{{product.product_id}}</td>
+            <!-- <td>{{instance.category}}</td> -->
+            <td>{{product.product_name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.reorder_level}}</td>
+            <td>{{product.price}}</td>
+            {% comment %} <td>{{product.expiry_date}}</td> {% endcomment %}
+          </tr>
+      {% endfor %}
+        </tbody>         
+    </table>
+ 
+{% endblock content %}
+

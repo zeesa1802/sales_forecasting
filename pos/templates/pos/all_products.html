@@ -1,0 +1,39 @@
+{% extends 'pos/home.html' %}
+
+{% block title %}All Products{% endblock title %}
+
+{% block content %}
+{% comment %} <div class="col-md"> {% endcomment %}
+  <h1 class="text-center mt-4">All Products</h1>
+  <div class="card-body">
+  <table class="table table-hover" id="datatablesSimple">
+      <thead>
+        <tr>
+          <th>PRODUCT ID</th>
+          <th>PRODUCT NAME</th>
+          <th>QUANTITY</th>
+          <th>RESTOCK QUANTITY</th>
+          <th>EXPIRY DATE</th>
+          <th>PRICE</th>
+          <th>CATEGORY</th>
+        </tr>
+      </thead>
+      <tbody>
+          
+        {% for product in products %}
+        <tr>
+          <td>{{product.product_id}}</td>
+          <td>{{product.product_name}}</td>
+          <td>{{product.quantity}}</td>
+          <td>{{product.reorder_level}}</td>
+          <td>{{product.expiry_date}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.category}}</td>
+        </tr>
+    {% endfor %}
+      </tbody>         
+  </table>
+{% comment %} </div> {% endcomment %}
+
+
+{% endblock content %}

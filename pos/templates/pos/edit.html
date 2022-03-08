@@ -1,0 +1,53 @@
+{% extends 'pos/home.html' %}
+{% block title %}Edit User{% endblock title %}
+{% block content %}
+
+<div class="card-body">
+  <h1 class="text-center mt-4">Edit User</h1>
+  <table class="table" id="myTable" style="margin-top:1cm;">
+
+    <form method="POST" class="post-form" action="/update/{{user1.username}}">
+      {% csrf_token %}
+
+      <tbody>
+
+        <tr>
+          <td><label for="username_username">Username:</label> </td>
+          <td><input type="text" name="username" id="username_username" required maxlength="20"
+            value="{{ user1.username }}" /></td>
+        </tr>
+
+        <tr>
+          <td><label for="username_name">First Name:</label> </td>
+          <td><input type="text" name="first_name" id="username_name" required maxlength="100"
+            value="{{ user1.first_name }}" /></td>
+        </tr>
+        <tr>
+          <td><label for="username_last_name">Last Name:</label> </td>
+          <td><input type="text" name="last_name" id="username_last_name" required maxlength="254"
+            value="{{ user1.last_name }}" /></td>
+        </tr>
+        <tr>
+          <td><label for="username_password1">Enter New Password:</label> </td>
+          <td><input type="password" name="password1" id="username_password1" required maxlength="215"
+            value="" /></td>
+        </tr>
+        <tr>
+          <td><label for="username_password2">Re-enter New Password:</label> </td>
+          <td><input type="password" name="password2" id="username_password2" required
+            maxlength="215" value="" /></td>
+        </tr>
+
+        <tr>
+          <td></td>
+          <td><input style="margin-left:3.4cm" type="submit" value="Update" class="btn btn-primary btn-md  btn-add"></td>     
+        </tr>
+
+        
+      </tbody>
+    </form>
+  </table>
+  {{form.errors}}
+
+  {% endblock content %}
+</div>

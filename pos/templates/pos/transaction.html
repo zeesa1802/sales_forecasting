@@ -1,0 +1,117 @@
+   
+{% extends "pos/home.html" %}
+
+{% block title %}
+  View All Orders
+{% endblock title %}
+
+
+{% block head %}
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+{% endblock head %}
+<style>
+  table{
+    border-color: transparent;
+  }
+</style>
+
+{% block content %}
+
+
+<div class="col-md">
+  <h2 class="text-center mt-4">View All Orders</h2>
+    <div class="card-body">
+  <table class="table table-hover" id="datatablesSimple">
+      <thead>
+        <tr>
+          <th>Transaction ID</th>
+          <th>Product Name</th>
+          <th>Product Quantity</th>
+          <th>Product Price</th>
+          <th>Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>         
+  </table>
+</div>
+</div>
+
+
+<script>  
+
+    $( document ).ready(function() {
+
+        var table = document.getElementById("datatablesSimple");
+
+        {% for transaction in transactions %}
+            var row = table.insertRow();
+
+            var cell0 = row.insertCell(0);
+            cell0.innerHTML = {{transaction.transaction_id}}
+
+            var cell1 = row.insertCell(1);
+            {% comment %} cell1.innerHTML = {{transaction_id_list}}[1] {% endcomment %}
+            
+            var get_product_names = " "
+            get_product_names = "{{transaction.transaction_products_name}}";
+            {% comment %} console.log( get_product_names ); {% endcomment %}
+            var nameArr = get_product_names.split(',');
+
+            {% comment %} console.log(nameArr); {% endcomment %}
+
+            for (var j = 0; j < nameArr.length; j++) {
+              var nested_row = document.createElement("tr");
+              var cell = document.createElement("td");
+              //var cellText = document.createTextNode("cell in row "+1+", column "+j);
+              var cellText = document.createTextNode(nameArr[j]);
+              cell.appendChild(cellText);
+              nested_row.appendChild(cell);
+              cell1.appendChild(nested_row);
+            }
+
+
+            var cell2 = row.insertCell(2);
+          
+            get_product_prices = "{{transaction.transaction_products_price}}";
+            nameArr = get_product_prices.split(',');
+
+            for (var j = 0; j < nameArr.length; j++) {
+              nested_row = document.createElement("tr");
+              cell = document.createElement("td");
+              
+              cellText = document.createTextNode(nameArr[j]);
+              cell.appendChild(cellText);
+              nested_row.appendChild(cell);
+              cell2.appendChild(nested_row);
+            }
+
+
+            var cell3 = row.insertCell(3);
+        
+            get_product_quantity = "{{transaction.transaction_products_quantity}}";
+            nameArr = get_product_quantity.split(',');
+
+            for (var j = 0; j < nameArr.length; j++) {
+              nested_row = document.createElement("tr");
+              cell = document.createElement("td");
+              
+              cellText = document.createTextNode(nameArr[j]);
+              cell.appendChild(cellText);
+              nested_row.appendChild(cell);
+              cell3.appendChild(nested_row);
+            }
+            
+            var cell4 = row.insertCell(4);
+            cell4.innerHTML = {{transaction.transaction_totalamount}}
+        
+        {% endfor %}
+        
+        {% comment %} console.log({{transactions.0.transaction_id}}) {% endcomment %}
+      });
+
+    
+</script>
+{% endblock content %}
